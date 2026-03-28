@@ -24,6 +24,7 @@
           <div>
             <p class="eyebrow">Zen Puzzle Playable</p>
             <h1>Bloom Bliss</h1>
+            <p class="header-note">Cozy combos, tiny creatures, one very calm garden.</p>
           </div>
           <button id="muteToggle" class="icon-button" type="button" aria-label="Toggle sound">Sound On</button>
         </header>
@@ -48,9 +49,20 @@
             <p class="panel-title">Make full rows, columns, or 2x2 bloom clusters.</p>
             <p class="panel-subtitle" id="messageText">Drag the glowing bunny tile into the sparkling space.</p>
           </div>
+          <div class="goal-strip">
+            <div class="goal-copy">
+              <span class="goal-label">Bloom Goal</span>
+              <strong id="goalText">0 of 3 blooms</strong>
+            </div>
+            <div class="goal-meter" aria-hidden="true">
+              <div id="goalFill" class="goal-fill"></div>
+            </div>
+            <div id="comboBadge" class="combo-badge hidden">Calm Combo x2</div>
+          </div>
           <div class="board-wrap">
             <div id="board" class="board" aria-label="Puzzle board"></div>
             <div id="dragGhost" class="drag-ghost hidden" aria-hidden="true"></div>
+            <div id="burstLayer" class="burst-layer" aria-hidden="true"></div>
           </div>
         </section>
 
@@ -63,7 +75,7 @@
         </section>
 
         <section class="cta-strip">
-          <button id="ctaButton" class="cta-button secondary" type="button">Play the Full Game</button>
+          <button id="ctaButton" class="cta-button secondary" type="button">Unlock 200+ Cute Zen Puzzles</button>
         </section>
       </div>
 
@@ -72,6 +84,14 @@
           <p class="eyebrow">Tiny victory garden</p>
           <h2 id="endTitle">So peaceful.</h2>
           <p id="endSummary" class="end-summary"></p>
+          <div class="store-card">
+            <div class="store-icon" aria-hidden="true">🌸</div>
+            <div class="store-copy">
+              <strong>Bloom Bliss</strong>
+              <span>4.9 rating • relaxing puzzle journey</span>
+            </div>
+          </div>
+          <p class="store-bullets">Decorate garden worlds, collect happy helpers, and solve bite-size zen puzzles.</p>
           <div class="end-actions">
             <button id="replayButton" class="cta-button ghost" type="button">Play Again</button>
             <button id="finalCtaButton" class="cta-button" type="button">Download Now</button>

@@ -59,6 +59,10 @@ const scoreValueEl = document.getElementById("scoreValue");
 const bloomsValueEl = document.getElementById("bloomsValue");
 const timerValueEl = document.getElementById("timerValue");
 const messageTextEl = document.getElementById("messageText");
+const goalTextEl = document.getElementById("goalText");
+const goalFillEl = document.getElementById("goalFill");
+const comboBadgeEl = document.getElementById("comboBadge");
+const burstLayerEl = document.getElementById("burstLayer");
 const endCardEl = document.getElementById("endCard");
 const endTitleEl = document.getElementById("endTitle");
 const endSummaryEl = document.getElementById("endSummary");
@@ -79,6 +83,8 @@ let soundEnabled = true;
 let dragState = null;
 let tutorialStep = 0;
 let activePointerId = null;
+let comboChain = 0;
+let comboTimeoutId = null;
 
 function clonePiece(id) {
   const template = PIECE_LIBRARY.find((piece) => piece.id === id);
@@ -245,6 +251,8 @@ function startTimer() {
 function updateHud() {
   scoreValueEl.textContent = String(score);
   bloomsValueEl.textContent = `${blooms} / ${TARGET_BLOOMS}`;
+  goalTextEl.textContent = `${blooms} of ${TARGET_BLOOMS} blooms`;
+  goalFillEl.style.width = `${Math.min((blooms / TARGET_BLOOMS) * 100, 100)}%`;
   timerValueEl.textContent = `${Math.max(timeLeft, 0)}s`;
   timerCardEl.classList.toggle("alert", timeLeft <= 10);
 }
@@ -364,15 +372,27 @@ function placePiece(piece, anchorX, anchorY) {
 
   const clearedCells = collectClears();
   if (clearedCells.length > 0) {
+    comboChain += 1;
     blooms += clearedCells.length >= 4 ? 1 : 0;
-    score += clearedCells.length * 12;
+    score += clearedCells.length * 12 + comboChain * 8;
     animateClear(clearedCells);
+    showComboBadge(comboChain, clearedCells.length);
+    spawnBurst(clearedCells);
     if (blooms >= TARGET_BLOOMS) {
       window.setTimeout(() => endGame(true, "Three blooms and a very happy garden."), 480);
     }
-    setMessage(clearedCells.length >= 8 ? "Lovely combo. Everything feels lighter." : "A soft bloom clears the board.");
-    chirp(760, 0.07);
+    setMessage(
+      clearedCells.length >= 8
+        ? "Lovely combo. The whole garden sparkles."
+        : comboChain > 1
+          ? "Calm combo. Keep the bloom streak going."
+          : "A soft bloom clears the board."
+    );
+    chirp(760 + comboChain * 40, 0.07);
+    resetComboDecay();
   } else {
+    comboChain = 0;
+    hideComboBadge();
     chirp(520, 0.05);
     setMessage("Nice placement. Build another bloom.");
   }
@@ -454,15 +474,57 @@ function animateClear(cells) {
   }, 230);
 }
 
+function showComboBadge(chain, clearedCount) {
+  if (chain < 2 && clearedCount < 8) {
+    hideComboBadge();
+    return;
+  }
+  const label = clearedCount >= 8 ? "Garden Burst" : `Calm Combo x${chain}`;
+  comboBadgeEl.textContent = label;
+  comboBadgeEl.classList.remove("hidden");
+}
+
+function hideComboBadge() {
+  comboBadgeEl.classList.add("hidden");
+}
+
+function resetComboDecay() {
+  window.clearTimeout(comboTimeoutId);
+  comboTimeoutId = window.setTimeout(() => {
+    comboChain = 0;
+    hideComboBadge();
+  }, 2200);
+}
+
+function spawnBurst(cells) {
+  const boardRect = boardEl.getBoundingClientRect();
+  const unique = Math.min(cells.length, 8);
+  for (let index = 0; index < unique; index += 1) {
+    const [x, y] = cells[index];
+    const dot = document.createElement("div");
+    dot.className = "burst-dot";
+    dot.style.left = `${((x + 0.5) / BOARD_SIZE) * boardRect.width}px`;
+    dot.style.top = `${((y + 0.5) / BOARD_SIZE) * boardRect.height}px`;
+    dot.style.setProperty("--burst-x", `${(Math.random() - 0.5) * 64}px`);
+    dot.style.setProperty("--burst-y", `${-22 - Math.random() * 46}px`);
+    dot.style.background = ["#fff6c1", "#ffd8c3", "#caf2e2", "#d7ecff"][index % 4];
+    burstLayerEl.appendChild(dot);
+    window.setTimeout(() => dot.remove(), 900);
+  }
+}
+
 function endGame(didWin, summary) {
   if (gameOver) {
     return;
   }
   gameOver = true;
   clearInterval(timerId);
+  hideComboBadge();
   setMessage(didWin ? "A quiet little victory." : "Almost there. Try one more soothing round.");
-  endTitleEl.textContent = didWin ? "So peaceful." : "One more bloom?";
-  endSummaryEl.textContent = `${summary} Final score: ${score}.`;
+  endTitleEl.textContent = didWin ? "Garden restored." : "One more bloom?";
+  endSummaryEl.textContent = didWin
+    ? `${summary} Final score: ${score}. The full game adds cozy worlds, boosters, and daily rewards.`
+    : `${summary} Final score: ${score}. The full game gives you plenty of time, power-ups, and more adorable helpers.`;
   endCardEl.classList.remove("hidden");
   chirp(didWin ? 860 : 420, 0.11);
 }
@@ -475,6 +537,10 @@ function replay() {
   tutorialStep = 0;
   activePointerId = null;
   dragState = null;
+  comboChain = 0;
+  window.clearTimeout(comboTimeoutId);
+  hideComboBadge();
+  burstLayerEl.innerHTML = "";
   endCardEl.classList.add("hidden");
   setupBoard();
   buildBoard();
