@@ -1,93 +1,72 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f6ede1" />
-    <title>Zen Match Garden</title>
-    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Zen Bloom Puzzle</title>
+    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <main class="ad-shell" id="app" aria-label="Playable ad: Zen Match Garden">
-      <div class="bg-orb orb-a"></div>
-      <div class="bg-orb orb-b"></div>
-      <div class="bg-orb orb-c"></div>
-
-      <section class="hud">
-        <div class="brand-mark" aria-hidden="true">✦</div>
-        <div>
-          <p class="eyebrow">Zen Match Garden</p>
-          <h1>Make the little garden glow</h1>
-        </div>
-        <div class="progress-pill" aria-live="polite">
-          <span id="progressCount">0</span>/<span>3</span>
-        </div>
-      </section>
-
-      <section class="story-card">
-        <p class="tutorial">
-          Drag each cute charm into its matching glow. When the garden is balanced, the reward appears.
-        </p>
-      </section>
-
-      <section class="scene" aria-label="Puzzle board">
-        <div class="target-row">
-          <div class="target" data-target="lotus">
-            <span class="target-ring"></span>
-            <span class="target-icon">🪷</span>
-            <span class="target-label">lotus</span>
+    <main class="app-shell">
+      <section class="game-card">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">Playable Ad</p>
+            <h1>Zen Bloom</h1>
           </div>
-          <div class="target" data-target="sparkle">
-            <span class="target-ring"></span>
-            <span class="target-icon">✦</span>
-            <span class="target-label">sparkle</span>
+          <button class="ghost-button" id="resetButton" type="button">Reset</button>
+        </div>
+
+        <div class="status-row">
+          <div class="status-pill">
+            <span class="status-label">Moves</span>
+            <strong id="movesValue">0</strong>
+          </div>
+          <div class="status-pill">
+            <span class="status-label">Mood</span>
+            <strong id="moodValue">Calm</strong>
           </div>
         </div>
 
-        <div class="hero-circle" aria-hidden="true">
-          <span class="hero-glow"></span>
-          <span class="hero-smile">☺</span>
+        <div class="hero-panel">
+          <div>
+            <p class="hero-copy">Guide the stream to the lotus. Tap tiles to rotate them.</p>
+            <p class="hero-subcopy" id="helperText">Make the water path glow from the spring to the flower.</p>
+          </div>
+          <div class="mascot" aria-hidden="true">
+            <span class="mascot-face">^_^</span>
+          </div>
         </div>
 
-        <div class="target target-center" data-target="leaf">
-          <span class="target-ring"></span>
-          <span class="target-icon">🍃</span>
-          <span class="target-label">leaf</span>
+        <section class="board-wrap" aria-label="Zen Bloom puzzle board">
+          <div class="board" id="board"></div>
+          <div class="floating-badge" id="hintBadge">Tap a tile</div>
+        </section>
+
+        <div class="cta-strip">
+          <button class="primary-button" id="shuffleButton" type="button">Shuffle Puzzle</button>
+          <button class="secondary-button" id="hintButton" type="button">Show Hint</button>
         </div>
       </section>
-
-      <section class="tray" aria-label="Puzzle pieces">
-        <div class="tray-label">Move the charms from the tray</div>
-        <div class="tray-slots" aria-hidden="true">
-          <div class="tray-slot"></div>
-          <div class="tray-slot"></div>
-          <div class="tray-slot"></div>
-        </div>
-      </section>
-
-      <div class="piece-layer" id="pieceLayer" aria-label="Draggable pieces">
-        <button class="piece" type="button" data-piece="lotus" aria-label="Lotus charm">
-          <span class="piece-icon">🪷</span>
-          <span class="piece-text">lotus</span>
-        </button>
-        <button class="piece" type="button" data-piece="sparkle" aria-label="Sparkle charm">
-          <span class="piece-icon">✦</span>
-          <span class="piece-text">sparkle</span>
-        </button>
-        <button class="piece" type="button" data-piece="leaf" aria-label="Leaf charm">
-          <span class="piece-icon">🍃</span>
-          <span class="piece-text">leaf</span>
-        </button>
-      </div>
-
-      <aside class="end-card" id="endCard" aria-live="polite" aria-hidden="true">
-        <p class="end-kicker">Garden complete</p>
-        <h2>So calm. So cute. So ready to play.</h2>
-        <p class="end-copy">Tap to begin your own cozy puzzle journey and keep the zen going.</p>
-        <button class="cta-button" id="ctaButton" type="button">Play Now</button>
-      </aside>
     </main>
 
-    <script src="script.js"></script>
+    <div class="overlay hidden" id="winOverlay" role="dialog" aria-modal="true" aria-labelledby="winTitle">
+      <div class="overlay-card">
+        <div class="petals" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p class="eyebrow">Puzzle Cleared</p>
+        <h2 id="winTitle">The lotus is blooming</h2>
+        <p class="overlay-copy">
+          You restored the garden in <strong id="finalMoves">0</strong> moves. Ready for more cozy brain-teasers?
+        </p>
+        <div class="overlay-actions">
+          <button class="primary-button" id="installButton" type="button">Install Now</button>
+          <button class="secondary-button" id="playAgainButton" type="button">Play Again</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="./script.js"></script>
   </body>
 </html>
