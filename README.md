@@ -1,24 +1,17 @@
-# Zen Bloom Playable Ad
+# Bloom Bliss
 
-Static mobile-first playable ad for a cozy puzzle game concept.
+A mobile-first static playable ad built with plain HTML, CSS, and JavaScript.
+
+## Concept
+
+`Bloom Bliss` is a cute zen puzzle where players drag soft animal-shaped tiles onto a 5x5 garden board. Completing rows, columns, or 2x2 bloom clusters clears the board with calm feedback and quickly leads into a CTA.
 
 ## Files
 
-- `index.html`: main playable shell and end card
-- `styles.css`: visual design, layout, and animations
-- `script.js`: puzzle logic, tutorial flow, hinting, and CTA behavior
+- `index.html`: app shell and HUD
+- `styles.css`: pastel visual treatment, motion, and responsive layout
+- `script.js`: puzzle logic, tutorial, timer, clears, sound, and CTA flow
 
-## Local Run
+## Run locally
 
-Serve the folder with any static server, for example:
-
-```bash
-python3 -m http.server 4173
-```
-
-Then open `http://127.0.0.1:4173`.
-
-## Production Hookups
-
-- Replace the `Install Now` button behavior in `script.js` with the real app store URL or MMP CTA.
-- If your ad network requires a single-file bundle, inline `styles.css` and `script.js` into `index.html`.
+Open `index.html` directly in a browser, or serve the folder with any static server.

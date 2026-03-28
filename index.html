@@ -2,67 +2,80 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Zen Bloom Puzzle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>Bloom Bliss</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Nunito:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <main class="app-shell">
-      <section class="game-card">
-        <div class="topbar">
+    <div class="sky">
+      <div class="hill hill-back"></div>
+      <div class="hill hill-front"></div>
+      <div class="petal petal-a"></div>
+      <div class="petal petal-b"></div>
+      <div class="petal petal-c"></div>
+      <div class="app-shell">
+        <header class="topbar">
           <div>
-            <p class="eyebrow">Playable Ad</p>
-            <h1>Zen Bloom</h1>
+            <p class="eyebrow">Zen Puzzle Playable</p>
+            <h1>Bloom Bliss</h1>
           </div>
-          <button class="ghost-button" id="resetButton" type="button">Reset</button>
-        </div>
+          <button id="muteToggle" class="icon-button" type="button" aria-label="Toggle sound">Sound On</button>
+        </header>
 
-        <div class="status-row">
-          <div class="status-pill">
-            <span class="status-label">Moves</span>
-            <strong id="movesValue">0</strong>
+        <section class="hud">
+          <div class="stat-card">
+            <span class="stat-label">Score</span>
+            <strong id="scoreValue">0</strong>
           </div>
-          <div class="status-pill">
-            <span class="status-label">Mood</span>
-            <strong id="moodValue">Calm</strong>
+          <div class="stat-card">
+            <span class="stat-label">Blooms</span>
+            <strong id="bloomsValue">0 / 3</strong>
           </div>
-        </div>
-
-        <div class="hero-panel">
-          <div>
-            <p class="hero-copy">Guide the stream to the lotus. Tap tiles to rotate them.</p>
-            <p class="hero-subcopy" id="helperText">Make the water path glow from the spring to the flower.</p>
+          <div class="stat-card timer-card">
+            <span class="stat-label">Calm Time</span>
+            <strong id="timerValue">40s</strong>
           </div>
-          <div class="mascot" aria-hidden="true">
-            <span class="mascot-face">^_^</span>
-          </div>
-        </div>
-
-        <section class="board-wrap" aria-label="Zen Bloom puzzle board">
-          <div class="board" id="board"></div>
-          <div class="floating-badge" id="hintBadge">Tap a tile</div>
         </section>
 
-        <div class="cta-strip">
-          <button class="primary-button" id="shuffleButton" type="button">Shuffle Puzzle</button>
-          <button class="secondary-button" id="hintButton" type="button">Show Hint</button>
-        </div>
-      </section>
-    </main>
+        <section class="board-panel">
+          <div class="panel-copy">
+            <p class="panel-title">Make full rows, columns, or 2x2 bloom clusters.</p>
+            <p class="panel-subtitle" id="messageText">Drag the glowing bunny tile into the sparkling space.</p>
+          </div>
+          <div class="board-wrap">
+            <div id="board" class="board" aria-label="Puzzle board"></div>
+            <div id="dragGhost" class="drag-ghost hidden" aria-hidden="true"></div>
+          </div>
+        </section>
 
-    <div class="overlay hidden" id="winOverlay" role="dialog" aria-modal="true" aria-labelledby="winTitle">
-      <div class="overlay-card">
-        <div class="petals" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span><span></span>
-        </div>
-        <p class="eyebrow">Puzzle Cleared</p>
-        <h2 id="winTitle">The lotus is blooming</h2>
-        <p class="overlay-copy">
-          You restored the garden in <strong id="finalMoves">0</strong> moves. Ready for more cozy brain-teasers?
-        </p>
-        <div class="overlay-actions">
-          <button class="primary-button" id="installButton" type="button">Install Now</button>
-          <button class="secondary-button" id="playAgainButton" type="button">Play Again</button>
+        <section class="tray-panel">
+          <div class="tray-copy">
+            <h2>Garden Friends</h2>
+            <p>Place all three, then fresh shapes drift in.</p>
+          </div>
+          <div id="tray" class="tray" aria-label="Shape tray"></div>
+        </section>
+
+        <section class="cta-strip">
+          <button id="ctaButton" class="cta-button secondary" type="button">Play the Full Game</button>
+        </section>
+      </div>
+
+      <div id="endCard" class="end-card hidden" role="dialog" aria-modal="true" aria-labelledby="endTitle">
+        <div class="end-card-inner">
+          <p class="eyebrow">Tiny victory garden</p>
+          <h2 id="endTitle">So peaceful.</h2>
+          <p id="endSummary" class="end-summary"></p>
+          <div class="end-actions">
+            <button id="replayButton" class="cta-button ghost" type="button">Play Again</button>
+            <button id="finalCtaButton" class="cta-button" type="button">Download Now</button>
+          </div>
         </div>
       </div>
     </div>
