@@ -63,12 +63,16 @@ const goalTextEl = document.getElementById("goalText");
 const goalFillEl = document.getElementById("goalFill");
 const comboBadgeEl = document.getElementById("comboBadge");
 const burstLayerEl = document.getElementById("burstLayer");
+const rewardPanelEl = document.getElementById("rewardPanel");
+const rewardTitleEl = document.getElementById("rewardTitle");
+const rewardTextEl = document.getElementById("rewardText");
 const endCardEl = document.getElementById("endCard");
 const endTitleEl = document.getElementById("endTitle");
 const endSummaryEl = document.getElementById("endSummary");
 const replayButtonEl = document.getElementById("replayButton");
 const finalCtaButtonEl = document.getElementById("finalCtaButton");
 const ctaButtonEl = document.getElementById("ctaButton");
+const rewardCtaButtonEl = document.getElementById("rewardCtaButton");
 const muteToggleEl = document.getElementById("muteToggle");
 const timerCardEl = document.querySelector(".timer-card");
 
@@ -85,6 +89,7 @@ let tutorialStep = 0;
 let activePointerId = null;
 let comboChain = 0;
 let comboTimeoutId = null;
+let rewardShown = false;
 
 function clonePiece(id) {
   const template = PIECE_LIBRARY.find((piece) => piece.id === id);
@@ -255,6 +260,7 @@ function updateHud() {
   goalFillEl.style.width = `${Math.min((blooms / TARGET_BLOOMS) * 100, 100)}%`;
   timerValueEl.textContent = `${Math.max(timeLeft, 0)}s`;
   timerCardEl.classList.toggle("alert", timeLeft <= 10);
+  ctaButtonEl.textContent = blooms >= 1 ? "Install to Keep Your Bloom Streak" : "Unlock 200+ Cute Zen Puzzles";
 }
 
 function setMessage(text) {
@@ -388,6 +394,7 @@ function placePiece(piece, anchorX, anchorY) {
           ? "Calm combo. Keep the bloom streak going."
           : "A soft bloom clears the board."
     );
+    maybeShowReward();
     chirp(760 + comboChain * 40, 0.07);
     resetComboDecay();
   } else {
@@ -513,6 +520,16 @@ function spawnBurst(cells) {
   }
 }
 
+function maybeShowReward() {
+  if (rewardShown || blooms < 1) {
+    return;
+  }
+  rewardShown = true;
+  rewardTitleEl.textContent = "Your first garden gift is ready";
+  rewardTextEl.textContent = "Install now to claim coins, helpers, and today’s blossom streak.";
+  rewardPanelEl.classList.remove("hidden");
+}
+
 function endGame(didWin, summary) {
   if (gameOver) {
     return;
@@ -541,6 +558,8 @@ function replay() {
   window.clearTimeout(comboTimeoutId);
   hideComboBadge();
   burstLayerEl.innerHTML = "";
+  rewardShown = false;
+  rewardPanelEl.classList.add("hidden");
   endCardEl.classList.add("hidden");
   setupBoard();
   buildBoard();
@@ -635,6 +654,7 @@ document.addEventListener("pointercancel", () => {
 replayButtonEl.addEventListener("click", replay);
 finalCtaButtonEl.addEventListener("click", goToStore);
 ctaButtonEl.addEventListener("click", goToStore);
+rewardCtaButtonEl.addEventListener("click", goToStore);
 muteToggleEl.addEventListener("click", () => {
   soundEnabled = !soundEnabled;
   muteToggleEl.textContent = soundEnabled ? "Sound On" : "Sound Off";

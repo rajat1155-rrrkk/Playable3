@@ -26,7 +26,10 @@
             <h1>Bloom Bliss</h1>
             <p class="header-note">Cozy combos, tiny creatures, one very calm garden.</p>
           </div>
-          <button id="muteToggle" class="icon-button" type="button" aria-label="Toggle sound">Sound On</button>
+          <div class="header-actions">
+            <div class="install-chip">No Wi-Fi needed</div>
+            <button id="muteToggle" class="icon-button" type="button" aria-label="Toggle sound">Sound On</button>
+          </div>
         </header>
 
         <section class="hud">
@@ -74,6 +77,15 @@
           <div id="tray" class="tray" aria-label="Shape tray"></div>
         </section>
 
+        <section id="rewardPanel" class="reward-panel hidden" aria-live="polite">
+          <div class="reward-copy">
+            <span class="reward-kicker">Bloom reward unlocked</span>
+            <strong id="rewardTitle">Daily garden gifts are waiting</strong>
+            <p id="rewardText">Keep your streak going in the full game.</p>
+          </div>
+          <button id="rewardCtaButton" class="cta-button mini" type="button">Install & Claim</button>
+        </section>
+
         <section class="cta-strip">
           <button id="ctaButton" class="cta-button secondary" type="button">Unlock 200+ Cute Zen Puzzles</button>
         </section>
@@ -90,6 +102,11 @@
               <strong>Bloom Bliss</strong>
               <span>4.9 rating • relaxing puzzle journey</span>
             </div>
+          </div>
+          <div class="feature-pills">
+            <span>Daily gifts</span>
+            <span>Garden decorating</span>
+            <span>Offline play</span>
           </div>
           <p class="store-bullets">Decorate garden worlds, collect happy helpers, and solve bite-size zen puzzles.</p>
           <div class="end-actions">
